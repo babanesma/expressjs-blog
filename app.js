@@ -1,13 +1,25 @@
+// Main Variables
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var mongoose = require('mongoose');
+require('dotenv').config();
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var pagesRouter = require('./routes/pages');
+// connect to database
+url = 'mongodb://' +
+    process.env.DB_USER + ':' +
+    process.env.DB_PASS + '@' +
+    process.env.DB_HOST + ':' +
+    process.env.DB_PORT + '/' +
+    process.env.DB_NAME
 
+mongoose.connect(url, { useNewUrlParser: true })
+    .then(() => 'You are now connected to Mongo!')
+    .catch(err => console.error('Something went wrong', err))
+
+// Express App
 var app = express();
 
 // view engine setup
@@ -20,9 +32,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/pages', pagesRouter);
+// Routers
+app.use('/', require('./routes/index'));
+app.use('/users', require('./routes/users'));
+app.use('/pages', require('./routes/pages'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -5,7 +5,7 @@
 - [x] design
 - [ ] mongodb
 - [ ] user login
-- [ ] command to create user
+- [ ] create default user
 - [ ] home page
 - [ ] resume page
 - [ ] about me page
@@ -13,3 +13,4 @@
 - [ ] posts list to edit or delete
 - [ ] comments via disquss
 - [ ] search
+- [ ] docker
