@@ -2,7 +2,7 @@
 # Tasks
 
 - [x] install express
-- [ ] design
+- [x] design
 - [ ] mongodb
 - [ ] user login
 - [ ] command to create user
@@ -12,3 +12,4 @@
 - [ ] post form
 - [ ] posts list to edit or delete
 - [ ] comments via disquss
+- [ ] search
