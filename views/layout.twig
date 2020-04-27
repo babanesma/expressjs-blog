@@ -12,11 +12,14 @@
     <title>{{ title }}</title>
   </head>
   <body>
+    <div class="container">
+        {% include 'partials/nav.twig' %}
+        {% include 'partials/messages.twig' %}
 
-    {% include 'partials/nav.twig' %}
-    <main role="main" class="container">
-        {% block body %}{% endblock %}
-    </main>
+        <main role="main" class="container">
+            {% block body %}{% endblock %}
+        </main>
+    </div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

@@ -4,20 +4,18 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarCollapse">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="/posts">Posts</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/pages/about">About</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/pages/contact">Contact</a>
-      </li>
-    </ul>
-    <form class="form-inline mt-2 mt-md-0">
-      <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline my-2 my-sm-0" type="submit">Search</button>
-    </form>
+    <div class="navbar-nav mr-auto">
+        <a class="nav-item nav-link" href="/posts">Posts</a>
+        <a class="nav-item nav-link" href="/pages/about">About</a>
+        <a class="nav-item nav-link" href="/pages/contact">Contact</a>
+    </div>
+    <div class="navbar-nav ml-auto">
+        {% if userLoggedIn %}
+            <a class="nav-item nav-link active" href="/auth/logout">Logout</a>
+        {% else %}
+            <a class="nav-item nav-link active" href="/auth/login">Login</a>
+        {% endif %}
+        
+    </div>
   </div>
 </nav>

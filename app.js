@@ -6,17 +6,14 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require('mongoose');
 require('dotenv').config();
+const expressSession = require('express-session');
+var flash = require('connect-flash');
 
 // connect to database
-url = 'mongodb://' +
-    process.env.DB_USER + ':' +
-    process.env.DB_PASS + '@' +
-    process.env.DB_HOST + ':' +
-    process.env.DB_PORT + '/' +
-    process.env.DB_NAME
-
-mongoose.connect(url, { useNewUrlParser: true })
-    .then(() => 'You are now connected to Mongo!')
+mongoose.connect(process.env.MONGO_URL, {
+    useUnifiedTopology: true,
+    useNewUrlParser: true
+}).then(() => 'You are now connected to Mongo!')
     .catch(err => console.error('Something went wrong', err))
 
 // Express App
@@ -32,10 +29,23 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(expressSession({
+    secret: 'secret',
+    resave: true,
+    saveUninitialized: true
+}));
+app.use(flash());
+app.use(function(req, res, next){
+    res.locals.messages = req.flash();
+    res.locals.userLoggedIn = req.session.userId ? true : false
+    next();
+});
+
 // Routers
 app.use('/', require('./routes/index'));
 app.use('/users', require('./routes/users'));
 app.use('/pages', require('./routes/pages'));
+app.use('/auth', require('./routes/auth'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

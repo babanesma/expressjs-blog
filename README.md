@@ -3,14 +3,15 @@
 
 - [x] install express
 - [x] design
-- [ ] mongodb
-- [ ] user login
-- [ ] create default user
+- [x] mongodb
+- [x] create default user
+- [x] user login
+- [x] flash messages
+- [ ] post form
 - [ ] home page
 - [ ] resume page
 - [ ] about me page
-- [ ] post form
-- [ ] posts list to edit or delete
+- [ ] posts admin
 - [ ] comments via disquss
 - [ ] search
 - [ ] docker
