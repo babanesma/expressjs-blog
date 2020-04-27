@@ -20,7 +20,7 @@ mongoose.connect(process.env.MONGO_URL, {
 var app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'src/views'));
 app.set('view engine', 'twig');
 
 app.use(logger('dev'));
@@ -42,10 +42,11 @@ app.use(function(req, res, next){
 });
 
 // Routers
-app.use('/', require('./routes/index'));
-app.use('/users', require('./routes/users'));
-app.use('/pages', require('./routes/pages'));
-app.use('/auth', require('./routes/auth'));
+app.use('/', require('./src/routes/index'));
+app.use('/users', require('./src/routes/users'));
+app.use('/pages', require('./src/routes/pages'));
+app.use('/auth', require('./src/routes/auth'));
+app.use('/posts', require('./src/routes/posts'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
