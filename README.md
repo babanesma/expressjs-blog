@@ -8,10 +8,11 @@
 - [x] user login
 - [x] flash messages
 - [ ] post form
+- [ ] posts admin
 - [ ] home page
 - [ ] resume page
 - [ ] about me page
-- [ ] posts admin
 - [ ] comments via disquss
+- [ ] profile page
 - [ ] search
 - [ ] docker
