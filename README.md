@@ -7,12 +7,17 @@
 - [x] create default user
 - [x] user login
 - [x] flash messages
-- [ ] post form
-- [ ] posts admin
+- [ ] posts
+  - [ ] create
+  - [ ] slug
+  - [ ] update
+  - [ ] list
+  - [ ] unpublish / publish
+  - [ ] editorjs
+  - [ ] validation
 - [ ] home page
 - [ ] resume page
 - [ ] about me page
 - [ ] comments via disquss
-- [ ] profile page
 - [ ] search
 - [ ] docker

@@ -24,6 +24,7 @@
     "http-errors": "~1.6.3",
     "mongoose": "^5.9.10",
     "morgan": "~1.9.1",
+    "slugify": "^1.4.0",
     "twig": "~0.10.3"
   }
 }

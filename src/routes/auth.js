@@ -19,21 +19,22 @@ router.post('/login', parseForm, csrfProtection, async function(req, res) {
         password
     } = req.body;
 
+    let redirectTo = req.query.redirectTo;
     userModel.findOne({email: email}, (error, user) => {
         if (user) {
             bcrypt.compare(password, user.password, (error, same) => {
                 if (same) {
                     req.session.userId = user._id;
                     req.flash('success', 'Login Successful');
-                    return res.redirect('/');
+                    res.redirect(redirectTo || '/');
                 } else {
                     req.flash('danger', 'Wrong Credentials');
-                    return res.redirect('/auth/login');
+                    res.redirect('back');
                 }
             })
         } else {
             req.flash('danger', 'Wrong Credentials');
-            return res.redirect('/auth/login');
+            res.redirect('back');
         }
     })
 });

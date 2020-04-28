@@ -13,4 +13,5 @@ fs.remove(basePath + '/public/vendor/fontawesome', (err) => {
     fs.mkdirp(basePath + '/public/vendor/fontawesome');
     fs.copy(basePath + '/node_modules/@fortawesome/fontawesome-free/css' , basePath + '/public/vendor/fontawesome/css');
     fs.copy(basePath + '/node_modules/@fortawesome/fontawesome-free/js' , basePath + '/public/vendor/fontawesome/js');
+    fs.copy(basePath + '/node_modules/@fortawesome/fontawesome-free/webfonts' , basePath + '/public/vendor/fontawesome/webfonts');
 });

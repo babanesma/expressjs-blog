@@ -4,5 +4,9 @@ body {
 }
 
 a {
-  color: #00b7ff;
+    color: darkviolet;
+}
+
+label {
+    font-size: x-large;
 }
