@@ -1,27 +1,31 @@
 {% extends "layout.twig" %}
 
 {% block content %}
-    <h2>Create new post</h2>
-    <form action="/posts/store" method="post">
+    <h2>{{title}}</h2>
+    {% if post._id %}
+        <form action="/posts/update/{{post._id}}" method="post">
+    {% else %}
+        <form action="/posts/store" method="post">
+    {% endif %}
         <input type="hidden" name="_csrf" value="{{csrfToken}}">
         <div class="form-group">
             <label for="title">Title</label>
-            <input class="form-control" type="text" name="title" id="title" required="required" />
+            <input class="form-control" type="text" name="title" id="title" required="required" value="{{post.title or ''}}"/>
         </div>
         <div class="form-group">
             <label for="summary">Summary</label>
-            <textarea class="form-control" name="summary" id="summary" cols="30" rows="5" required="required" ></textarea>
+            <textarea class="form-control" name="summary" id="summary" cols="30" rows="5" required="required">{{post.summary or ''}}</textarea>
         </div>
         <div class="form-group">
             <label for="content">Content</label>
-            <textarea class="form-control" name="content" id="content" cols="30" rows="10" required="required" ></textarea>
+            <textarea class="form-control" name="content" id="content" cols="30" rows="10" required="required">{{post.content or ''}}</textarea>
         </div>
         <div class="custom-control custom-switch">
-            <input type="checkbox" class="custom-control-input" name="published" id="published" value="1">
+            <input type="checkbox" class="custom-control-input" name="published" id="published" value="1" {% if post.published %}checked="checked"{% endif %}>
             <label class="custom-control-label" for="published">Published</label>
         </div>
         <div class="form-group">
-            <input type="submit" value="Create" class="btn btn-outline-primary btn-lg" />
+            <input type="submit" value="{{submit_text}}" class="btn btn-outline-primary btn-lg" />
         </div>
     </form>
 {% endblock %}
