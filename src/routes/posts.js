@@ -13,7 +13,8 @@ router.get('/', async (req, res, next) => {
     try {
         let posts = await postsModel.find({}).sort({ createdAt: -1 }).populate('user');
         posts.forEach(p => {
-            p.fromNow = moment(p.createdAt).fromNow()
+            p.fromNow = moment(p.createdAt).fromNow();
+            p.author = p.user.firstname + ' ' + p.user.lastname;
         });
         res.render('posts/list', {
             posts: posts
@@ -56,7 +57,7 @@ router.post('/store', requireLogin, parseForm, csrfProtection, async (req, res) 
 router.get('/edit/:id', requireLogin, csrfProtection, async (req, res) => {
     let post = await postsModel.findOne({
         _id: req.params.id
-    })
+    });
 
     return res.render('posts/form', {
         csrfToken: req.csrfToken(),
@@ -64,9 +65,9 @@ router.get('/edit/:id', requireLogin, csrfProtection, async (req, res) => {
         post: post,
         submit_text: 'Update'
     });
-})
+});
 
-router.post('/update/:id', requireLogin, parseForm, csrfProtection, async (req, res)=>{
+router.post('/update/:id', requireLogin, parseForm, csrfProtection, async (req, res) => {
     try {
         let post = {
             title: req.body.title,
@@ -75,13 +76,25 @@ router.post('/update/:id', requireLogin, parseForm, csrfProtection, async (req, 
             published: req.body.published || false
         }
 
-        updatedPost = await postsModel.findOneAndUpdate({_id: req.params.id} , post)
+        updatedPost = await postsModel.findOneAndUpdate({ _id: req.params.id }, post)
         req.flash('success', 'Post Updated Successfully');
         res.redirect('/posts/' + updatedPost.slug);
     } catch (err) {
         req.flash('warning', err);
         res.redirect('back');
     }
-})
+});
 
+router.get('/:slug', async (req, res) => {
+    try {
+        let post = await postsModel.findOne({ slug: req.params.slug }).populate('user');
+        post.fromNow = moment(post.createdAt).fromNow();
+        post.author = post.user.firstname + ' ' + post.user.lastname;
+        return res.render('posts/post', {
+            post: post
+        });
+    } catch (error) {
+        throw new Error(error.message);
+    }
+});
 module.exports = router;

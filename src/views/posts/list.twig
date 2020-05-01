@@ -26,9 +26,8 @@
                         <a href="/posts/edit/{{p._id}}"><i class="fas fa-edit"></i></a>
                     </div>
                 {% endif %}
-                
             </div>
-            <span class="date">{{p.fromNow}}</span> by <span class="author">{{p.user.firstname}} {{p.user.lastname}}</span>
+            <span class="date">{{p.fromNow}}</span> by <span class="author">{{p.author}}</span>
             <p>{{p.summary}}</p>
         </div>
     {% endfor %}

@@ -1,0 +1,17 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+    <div class="blog-post">
+        <h2 class="blog-post-title">{{post.title}}</h2>
+        <span class="blog-post-meta">{{post.fromNow}} by {{post.author}}</span>
+
+        <div class="blog-post-summary mb-4 mt-4">
+            {{post.summary}}
+        </div>
+
+        <div class="blog-post-content">
+            {{post.content}}
+        </div>
+        
+    </div>
+{% endblock %}
