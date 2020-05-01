@@ -1,12 +1,11 @@
-var express = require('express');
-var router = express.Router();
-var csrf = require('csurf')
-var csrfProtection = csrf({ cookie: true });
-var bodyParser = require('body-parser');
-var parseForm = bodyParser.urlencoded({extended: false});
-var userModel = require('../models/User');
-var bcrypt = require('bcrypt');
-
+const express = require('express');
+const router = express.Router();
+const csrf = require('csurf')
+const csrfProtection = csrf({ cookie: true });
+const bodyParser = require('body-parser');
+const parseForm = bodyParser.urlencoded({extended: false});
+const userModel = require('../models/User');
+const bcrypt = require('bcrypt');
 
 // login
 router.get('/login', csrfProtection, function(req, res) {
