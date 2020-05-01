@@ -5,4 +5,12 @@
     {% if userLoggedIn %}
         <a href="/posts/create" class="btn btn-success">Create New Post</a>
     {% endif %}
+
+    {% for p in posts %}
+        <div class="post">
+            <h3><a href="/posts/{{p.slug}}">{{p.title}}</a></h3>
+            <span class="date">{{p.fromNow}}</span>
+            <p>{{p.summary}}</p>
+        </div>
+    {% endfor %}
 {% endblock %}

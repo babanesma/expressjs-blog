@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
-const slugify = require('slugify');
 
 const PostSchema = new mongoose.Schema(
     {
         slug: {
-            type: String
+            type: String,
+            unique: true
         },
         title: {
             type: String,
@@ -31,13 +31,5 @@ const PostSchema = new mongoose.Schema(
         timestamps: true,
     }
 );
-
-PostSchema.pre("create", function (next) {
-    const post = this;
-    post.slug = slugify(post.title, {
-        lower: true,
-        strip: true
-    });
-});
 
 module.exports = mongoose.model("Post", PostSchema);
