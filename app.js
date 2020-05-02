@@ -12,7 +12,9 @@ var flash = require('connect-flash');
 // connect to database
 mongoose.connect(process.env.MONGO_URL, {
     useUnifiedTopology: true,
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useFindAndModify: false
 }).then(() => 'You are now connected to Mongo!')
     .catch(err => console.error('Something went wrong', err))
 
