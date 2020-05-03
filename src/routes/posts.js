@@ -9,22 +9,6 @@ const requireLogin = require('../middlewares/requireLogin');
 const slugify = require('slugify');
 const moment = require('moment')
 
-router.get('/', async (req, res, next) => {
-    try {
-        let posts = await postsModel.find({}).sort({ createdAt: -1 }).populate('user');
-        posts.forEach(p => {
-            p.fromNow = moment(p.createdAt).fromNow();
-            p.author = p.user.firstname + ' ' + p.user.lastname;
-        });
-        res.render('posts/list', {
-            posts: posts
-        });
-    } catch (err) {
-        req.flash('warning', err.message);
-        res.redirect('back');
-    }
-});
-
 router.get('/create', requireLogin, csrfProtection, (req, res) => {
     res.render('posts/form', {
         csrfToken: req.csrfToken(),
@@ -113,4 +97,5 @@ router.get('/:slug', async (req, res) => {
         throw new Error(error.message);
     }
 });
+
 module.exports = router;
