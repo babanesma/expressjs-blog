@@ -18,12 +18,15 @@
     {% for p in posts.docs %}
         <div class="post">
             <div class="row">
-                <div class="col-11">
+                <div class="col-10">
                     <h3><a href="/posts/{{p.slug}}">{{p.title}}</a></h3>
                 </div>
                 {% if userLoggedIn %}
                     <div class="col-1">
-                        <a href="/posts/edit/{{p._id}}"><i class="fas fa-edit"></i></a>
+                        <a href="/posts/delete/{{p._id}}"><i class="fas fa-trash-alt" title="Remove Post"></i></a>
+                    </div>
+                    <div class="col-1">
+                        <a href="/posts/edit/{{p._id}}"><i class="fas fa-edit" title="Edit Post"></i></a>
                     </div>
                 {% endif %}
             </div>
@@ -32,13 +35,15 @@
         </div>
     {% endfor %}
 
-    <div class="pagination">
-        {% if posts.hasPrevPage %}
-            <a class="btn btn-primary mx-1" href="/{{posts.prevPage}}">New Posts</a>
-        {% endif %}
-        {% if posts.hasNextPage %}
-            <a class="btn btn-primary mx-1" href="/{{posts.nextPage}}">Older Posts</a>
-        {% endif %}
-    </div>
+    <nav aria-label="Posts navigation">
+        <ul class="pagination">
+            {% if posts.hasPrevPage %}
+                <li class="page-item"><a class="page-link" href="/{{posts.prevPage}}">&laquo; New Posts</a></li>
+            {% endif %}
+            {% if posts.hasNextPage %}
+                <li class="page-item"><a class="page-link" href="/{{posts.nextPage}}">Older Posts &raquo;</a></li>
+            {% endif %}
+        </ul>
+    </nav>
 
 {% endblock %}
