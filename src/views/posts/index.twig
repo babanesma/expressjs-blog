@@ -15,7 +15,7 @@
         {% endif %}
     </div>
 
-    {% for p in posts %}
+    {% for p in posts.docs %}
         <div class="post">
             <div class="row">
                 <div class="col-11">
@@ -31,5 +31,14 @@
             <p>{{p.summary}}</p>
         </div>
     {% endfor %}
+
+    <div class="pagination">
+        {% if posts.hasPrevPage %}
+            <a class="btn btn-primary mx-1" href="/{{posts.prevPage}}">New Posts</a>
+        {% endif %}
+        {% if posts.hasNextPage %}
+            <a class="btn btn-primary mx-1" href="/{{posts.nextPage}}">Older Posts</a>
+        {% endif %}
+    </div>
 
 {% endblock %}

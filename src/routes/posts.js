@@ -48,16 +48,11 @@ router.get('/edit/:id', requireLogin, csrfProtection, async (req, res) => {
         _id: req.params.id
     });
 
-    let post_tags = '';
-    if (post.tags.length > 0 ) {
-        post_tags = post.tags.reduce((acc , t) => acc + ',' + t);
-    }
-
     return res.render('posts/form', {
         csrfToken: req.csrfToken(),
         title: 'Edit Post',
         post: post,
-        post_tags: post_tags,
+        post_tags: post.tags.join(','),
         submit_text: 'Update'
     });
 });
@@ -67,7 +62,7 @@ router.post('/update/:id', requireLogin, parseForm, csrfProtection, async (req, 
         let tags_input = req.body.tags;
         let tags = tags_input.split(',');
         tags = tags.filter((t) => t.length > 0);
-        console.log(tags);
+
         let post = {
             title: req.body.title,
             summary: req.body.summary,

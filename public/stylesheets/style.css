@@ -1,6 +1,7 @@
 body {
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-size: 12px;
   min-height: 75rem;
+  font-family: 'Nunito', sans-serif;
 }
 
 a {
