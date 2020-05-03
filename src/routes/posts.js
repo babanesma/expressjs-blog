@@ -89,7 +89,33 @@ router.get('/:slug', async (req, res) => {
             post: post
         });
     } catch (error) {
-        throw new Error(error.message);
+        req.flash('warning', error.message);
+        res.redirect('back');
+    }
+});
+
+router.get('/delete/:id', requireLogin, csrfProtection, async (req, res) => {
+    try {
+        let post = await postsModel.findOne({ _id: req.params.id });
+
+        res.render('posts/delete', {
+            post: post,
+            csrfToken: req.csrfToken()
+        });
+    } catch (error) {
+        req.flash('warning', error.message);
+        res.redirect('back');
+    }
+})
+
+router.post('/delete/:id', requireLogin, csrfProtection, async (req, res) => {
+    try {
+        await postsModel.remove({_id: req.params.id});
+        req.flash('danger', 'Post Deleted !');
+        res.redirect('/posts');
+    } catch (error) {
+        req.flash('warning', error.message);
+        res.redirect('back');
     }
 });
 
