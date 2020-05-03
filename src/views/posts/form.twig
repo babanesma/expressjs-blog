@@ -20,6 +20,16 @@
             <label for="content">Content</label>
             <textarea class="form-control" name="content" id="content" cols="30" rows="10" required="required">{{post.content or ''}}</textarea>
         </div>
+        <div class="form-group">
+            <label for="content">Tags</label>
+            <input type="hidden" id="tags" name="tags"  value="{{post_tags or ''}}"/>
+            <input class="form-control" type="text" id="tags_search" name="tags_search" placeholder="Type tag name then press ," />
+            <div class="tags mt-2" id="post_tags">
+                {% for t in post.tags %}
+                    <span class="tag mr-1 mb-1 btn btn-primary" onclick="removeTag(this, '{{t}}')">{{t}} <i class="ml-1 fas fa-times"></i></span>
+                {% endfor %}
+            </div>
+        </div>
         <div class="custom-control custom-switch">
             <input type="checkbox" class="custom-control-input" name="published" id="published" value="1" {% if post.published %}checked="checked"{% endif %}>
             <label class="custom-control-label" for="published">Published</label>
@@ -28,4 +38,39 @@
             <input type="submit" value="{{submit_text}}" class="btn btn-outline-primary btn-lg" />
         </div>
     </form>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $(function () {
+            $("#tags_search").bind('keyup', (event) => {
+                if (event.keyCode == '188') { // comma
+                    let el = $(event.target);
+                    let tag_text = el.val().trim();
+                    tag_text = tag_text.replace(',' , '');
+                    tag_text = tag_text.replace(new RegExp("[\"\']"), ''); // remove quotes
+                    el.val(''); // clear the input box
+
+                    if ( $('#tags').val().search(tag_text) < 0) { // new tag is not added before
+                        let newTag = $("<span></span>");
+                        newTag.addClass('tag mr-1 mb-1 btn btn-primary');
+                        newTag.attr('onclick', "removeTag(this, '" + tag_text + "')");
+                        newTag.html(tag_text + '<i class="ml-1 fas fa-times"></i>');
+                        $('#post_tags').append(newTag);
+                        $('#tags').val(
+                            $('#tags').val() + ',' + tag_text
+                        );
+                    }
+                }
+            });
+
+            removeTag = (element, tag_text ) => {
+                let el = $(element);
+                $('#tags').val(
+                    $('#tags').val().replace(new RegExp(',?' + tag_text), '')
+                );
+                el.remove();
+            }
+        });
+    </script>
 {% endblock %}

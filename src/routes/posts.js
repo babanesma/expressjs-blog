@@ -36,20 +36,25 @@ router.get('/create', requireLogin, csrfProtection, (req, res) => {
 router.post('/store', requireLogin, parseForm, csrfProtection, async (req, res) => {
 
     try {
+        let tags_input = req.body.tags;
+        let tags = tags_input.split(',');
+        tags = tags.filter((t) => t.length > 0);
+
         let post = {
             title: req.body.title,
             summary: req.body.summary,
             content: req.body.content,
             published: req.body.published || false,
             user: req.session.userId,
-            slug: slugify(req.body.title)
+            slug: slugify(req.body.title),
+            tags: tags
         }
 
         let createdPost = await postsModel.create(post)
         req.flash('success', 'Post Created Successfully');
         res.redirect('/posts/' + createdPost.slug);
     } catch (err) {
-        req.flash('warning', err);
+        req.flash('warning', err.message);
         res.redirect('back');
     }
 });
@@ -59,21 +64,32 @@ router.get('/edit/:id', requireLogin, csrfProtection, async (req, res) => {
         _id: req.params.id
     });
 
+    let post_tags = '';
+    if (post.tags.length > 0 ) {
+        post_tags = post.tags.reduce((acc , t) => acc + ',' + t);
+    }
+
     return res.render('posts/form', {
         csrfToken: req.csrfToken(),
         title: 'Edit Post',
         post: post,
+        post_tags: post_tags,
         submit_text: 'Update'
     });
 });
 
 router.post('/update/:id', requireLogin, parseForm, csrfProtection, async (req, res) => {
     try {
+        let tags_input = req.body.tags;
+        let tags = tags_input.split(',');
+        tags = tags.filter((t) => t.length > 0);
+        console.log(tags);
         let post = {
             title: req.body.title,
             summary: req.body.summary,
             content: req.body.content,
-            published: req.body.published || false
+            published: req.body.published || false,
+            tags: tags
         }
 
         updatedPost = await postsModel.findOneAndUpdate({ _id: req.params.id }, post)
