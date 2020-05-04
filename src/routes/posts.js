@@ -8,6 +8,7 @@ const parseForm = bodyParser.urlencoded({ extended: false });
 const requireLogin = require('../middlewares/requireLogin');
 const slugify = require('slugify');
 const moment = require('moment')
+const marked = require('marked');
 
 router.get('/create', requireLogin, csrfProtection, (req, res) => {
     res.render('posts/form', {
@@ -85,6 +86,8 @@ router.get('/:slug', async (req, res) => {
         let post = await postsModel.findOne({ slug: req.params.slug }).populate('user');
         post.fromNow = moment(post.createdAt).fromNow();
         post.author = post.user.firstname + ' ' + post.user.lastname;
+        post.summary = marked(post.summary);
+        post.content = marked(post.content)
         return res.render('posts/post', {
             post: post
         });

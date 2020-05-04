@@ -8,6 +8,7 @@
     <!-- Vendor CSS -->
     <link rel="stylesheet" href="/vendor/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="/vendor/fontawesome/css/all.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.0.2/build/styles/default.min.css">
 
     <!-- styles -->
     <link rel='stylesheet' href='/stylesheets/style.css' />
@@ -29,10 +30,10 @@
         <main class="container-lg" role="main">
             {% include 'partials/messages.twig' %}
             <div class="row">
-                <div class="col-md-8 content">
+                <div class="col-md-9 content">
                     {% block content %}{% endblock %}
                 </div>
-                <aside class="col-md-4 sidebar">
+                <aside class="col-md-3 sidebar">
                     {% include 'partials/sidebar.twig' %}
                     {% block sidebar%}{% endblock %}
                 </aside>
@@ -51,6 +52,7 @@
     <script type="text/javascript" src="/vendor/popper/popper.min.js"></script>
     <script type="text/javascript" src="/vendor/bootstrap/bootstrap.min.js"></script>
     <script type="text/javascript" src="/vendor/fontawesome/js/all.js"></script>
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.0.2/build/highlight.min.js"></script>
     {% block scripts %}{% endblock %}
   </body>
 </html>

@@ -3,7 +3,7 @@
 {% block content %}
     <div class="blog-post">
         <h2 class="blog-post-title">{{post.title}}</h2>
-        <span class="blog-post-meta">{{post.fromNow}} by {{post.author}}</span>
+        <span class="blog-post-meta">{{post.fromNow}} by <span class="author">{{post.author}}</span></span>
 
         <div class="blog-post-summary mb-4 mt-4">
             {{post.summary}}
@@ -14,4 +14,16 @@
         </div>
         
     </div>
+{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.0.0/build/styles/default.min.css">
+{% endblock %}
+
+{% block scripts %}
+
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.0.0/build/highlight.min.js"></script>
+    <script>
+        hljs.initHighlightingOnLoad()
+    </script>
 {% endblock %}

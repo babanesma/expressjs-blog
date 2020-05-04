@@ -11,3 +11,18 @@ a {
 label {
     font-size: x-large;
 }
+
+.blog-post-meta {
+    font-style: italic;
+}
+
+.blog-post-meta .author {
+    font-weight: bolder;
+}
+
+blockquote {
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 20px;
+    margin-inline-end: 20px;
+}
