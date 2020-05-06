@@ -1,13 +1,14 @@
 // Main Variables
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var mongoose = require('mongoose');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const mongoose = require('mongoose');
 require('dotenv').config();
 const expressSession = require('express-session');
-var flash = require('connect-flash');
+const flash = require('connect-flash');
+const fileUpload = require('express-fileupload');
 
 // connect to database
 mongoose.connect(process.env.MONGO_URL, {
@@ -42,6 +43,8 @@ app.use(function (req, res, next) {
     res.locals.userLoggedIn = req.session.userId || false
     next();
 });
+
+app.use(fileUpload());
 
 // Routers
 app.use('/', require('./src/routes/index'));

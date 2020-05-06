@@ -14,10 +14,12 @@
         </div>
         <div class="form-group">
             <label for="summary">Summary</label>
+            <small class="form-text text-muted">Markdown supported</small>
             <textarea class="form-control" name="summary" id="summary" cols="30" rows="5" required="required">{{post.summary or ''}}</textarea>
         </div>
         <div class="form-group">
             <label for="content">Content</label>
+            <small class="form-text text-muted">Markdown supported</small>
             <textarea class="form-control" name="content" id="content" cols="30" rows="10" required="required">{{post.content or ''}}</textarea>
         </div>
         <div class="form-group">
@@ -50,7 +52,10 @@
     <script>
         $(function () {
             $('#summary').markdownEditor();
-            $('#content').markdownEditor();
+            $('#content').markdownEditor({
+                imageUpload: true,
+                uploadPath: '/posts/upload'
+            });
         });
     </script>
     <script>

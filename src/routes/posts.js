@@ -1,14 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const postsModel = require('../models/Post');
+const mediaModel = require('../models/Media');
 const csrf = require('csurf')
 const csrfProtection = csrf({ cookie: true });
 const bodyParser = require('body-parser');
 const parseForm = bodyParser.urlencoded({ extended: false });
 const requireLogin = require('../middlewares/requireLogin');
 const slugify = require('slugify');
-const moment = require('moment')
+const moment = require('moment');
 const marked = require('marked');
+const fs = require('fs-extra');
+const path = require('path');
 
 router.get('/create', requireLogin, csrfProtection, (req, res) => {
     res.render('posts/form', {
@@ -113,13 +116,46 @@ router.get('/delete/:id', requireLogin, csrfProtection, async (req, res) => {
 
 router.post('/delete/:id', requireLogin, csrfProtection, async (req, res) => {
     try {
-        await postsModel.remove({_id: req.params.id});
+        await postsModel.remove({ _id: req.params.id });
         req.flash('danger', 'Post Deleted !');
         res.redirect('/posts');
     } catch (error) {
         req.flash('warning', error.message);
         res.redirect('back');
     }
+});
+
+router.post('/upload', requireLogin, async (req, res) => {
+    let fileResponse = [];
+    for (const f in req.files) {
+        if (req.files.hasOwnProperty(f)) {
+            const currentFile = req.files[f];
+            let basePath = path.join(__dirname, '..', '..');
+            let d = new Date();
+            let uploadsPath = path.join('uploads',
+                d.getFullYear().toString(), d.getMonth().toString());
+            fs.mkdirp(path.join(basePath, uploadsPath));
+
+            console.log(currentFile, path.join(basePath, uploadsPath));
+            // await fs.move(currentFile.tempFilePath, path.join(basePath, uploadsPath));
+            await fs.writeFile(path.join(basePath, uploadsPath, currentFile.name), currentFile.data, 'binary');
+            let createdMedia = await mediaModel.create({
+                path: path.join(uploadsPath, currentFile.name),
+                mimetype: currentFile.mimetype
+            });
+            fileResponse.push('/posts/media/' + createdMedia._id);
+        }
+    }
+    res.json(fileResponse);
+});
+
+router.get('/media/:id', requireLogin, async (req, res) => {
+    let mediaFile = await mediaModel.findOne({ _id: req.params.id });
+    res.sendFile(path.resolve(__dirname , '..', '..', mediaFile.path), {
+        headers: {
+            'Content-Type': mediaFile.mimetype
+        }
+    });
 });
 
 module.exports = router;
