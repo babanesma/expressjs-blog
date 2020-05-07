@@ -9,6 +9,8 @@ require('dotenv').config();
 const expressSession = require('express-session');
 const flash = require('connect-flash');
 const fileUpload = require('express-fileupload');
+const manifestHelpers = require('express-manifest-helpers');
+// import manifestHelpers from 'express-manifest-helpers';
 
 // connect to database
 mongoose.connect(process.env.MONGO_URL, {
@@ -43,8 +45,10 @@ app.use(function (req, res, next) {
     res.locals.userLoggedIn = req.session.userId || false
     next();
 });
-
 app.use(fileUpload());
+app.use(manifestHelpers.default({
+    manifestPath: __dirname + '/public/build/rev-manifest.json'
+}));
 
 // Routers
 app.use('/', require('./src/routes/index'));

@@ -5,15 +5,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Vendor CSS -->
-    <link rel="stylesheet" href="/vendor/bootstrap/bootstrap.min.css">
-    <link rel="stylesheet" href="/vendor/fontawesome/css/all.css">
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.0.2/build/styles/default.min.css">
-
-    <!-- styles -->
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="manifest" href="/build/rev-manifest.json">
+    <!-- Font -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet">
+    <!-- Vendor CSS -->
+    <link rel="stylesheet" href="/build/css/{{assetPath('vendor.css')}}">
+    <!-- App Syles -->
+    <link rel="stylesheet" href="/build/css/app.css" />
+    <!-- Additional Styles -->
     {% block styles %}{% endblock %}
+
     {% if title %}
         <title>{{title}} - Blog</title>
     {% else %}
@@ -46,13 +47,9 @@
         </footer>
     </div>
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script type="text/javascript" src="/vendor/jquery/jquery.min.js"></script>
-    <script type="text/javascript" src="/vendor/popper/popper.min.js"></script>
-    <script type="text/javascript" src="/vendor/bootstrap/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/vendor/fontawesome/js/all.js"></script>
-    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.0.2/build/highlight.min.js"></script>
+    <!-- Vendor Scripts -->
+    <script type="text/javascript" src="/build/js/{{assetPath('vendor.js')}}"></script>
+    <!-- Additional Scripts -->
     {% block scripts %}{% endblock %}
   </body>
 </html>
