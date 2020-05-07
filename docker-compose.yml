@@ -1,0 +1,37 @@
+version: "3"
+
+services:
+  blog:
+    build: .
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/home/app
+    depends_on:
+      - mongo
+    networks:
+      - blog-network
+
+  mongo:
+    image: mongo:3.6
+    restart: always
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodata:/data/db
+      - "./docker/mongo/:/docker-entrypoint-initdb.d/"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${DB_ROOT_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_ROOT_PASS}
+      MONGO_INITDB_DATABASE: ${DB_NAME}
+      MONGO_DB_USER: ${DB_USER}
+      MONGO_DB_PASSWORD: ${DB_PASS}
+    networks:
+      - blog-network
+
+volumes:
+  mongodata:
+
+networks:
+  blog-network:
+    driver: bridge
