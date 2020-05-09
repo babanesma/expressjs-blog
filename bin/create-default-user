@@ -1,0 +1,53 @@
+#!/usr/bin/env node
+
+const mongoose = require('mongoose');
+require('dotenv').config();
+const prompt = require('prompt');
+
+mongoose.connect(process.env.MONGO_URL, {
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useFindAndModify: false
+}).catch(err => console.error('Something went wrong', err));
+
+const db = mongoose.connection;
+db.once('open', () => {
+    console.log("Connection Successful!");
+    const schema = {
+        properties: {
+            firstname: {
+                required: true,
+                description: 'Enter your First Name'
+            },
+            lastname: {
+                required: true,
+                description: 'Enter your Last Name'
+            },
+            email: {
+                required: true,
+                description: 'Enter your email address. That will be used for login'
+            },
+            password: {
+                hidden: true,
+                required: true,
+                replace: '*',
+                description: 'Enter your password. Remember it well.'
+            }
+        }
+    };
+
+    prompt.start();
+    prompt.get(schema, async function (err, result) {
+        const usersModel = require('../src/models/User');
+        u = await usersModel.create({
+            firstname: result.firstname,
+            lastname: result.lastname,
+            email: result.email,
+            password: result.password
+        });
+
+        console.log('user created', u);
+        process.exit();
+    });
+});
